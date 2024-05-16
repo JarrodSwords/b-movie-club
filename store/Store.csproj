@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Jgs.Errors" Version="0.4.0" />
+    <PackageReference Include="Jgs.ValueObjects" Version="0.2.0" />
+  </ItemGroup>
+
 </Project>
