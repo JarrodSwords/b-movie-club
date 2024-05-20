@@ -1,6 +1,4 @@
-﻿using DomainMessage = Store.Domain.Message;
-
-namespace Store.Infrastructure.Dapper;
+﻿namespace Store.Infrastructure.Dapper;
 
 public record Message(Guid Id, string Type)
 {

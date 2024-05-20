@@ -1,9 +1,4 @@
-﻿using FluentAssertions;
-using FluentAssertions.Execution;
-using Store.Domain;
-using DomainMessage = Store.Domain.Message;
-
-namespace Store.Infrastructure.Dapper.Spec;
+﻿namespace Store.Infrastructure.Dapper.Spec;
 
 public class WhenConvertingToInfrastructure
 {
