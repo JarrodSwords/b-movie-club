@@ -9,7 +9,7 @@ public class WhenConvertingToInfrastructure
 
     public WhenConvertingToInfrastructure()
     {
-        _source = new DomainMessage(MessageType.Create("FooCreated"));
+        _source = new DomainMessage(MessageType.Create("FooCreated"), 123);
         _message = _source;
     }
 
@@ -24,6 +24,7 @@ public class WhenConvertingToInfrastructure
 
         _message.Id.Should().Be(_source.Id);
         _message.Type.Should().Be(_source.Type);
+        _message.Position.Should().Be(_source.Position);
     }
 
     [Fact]

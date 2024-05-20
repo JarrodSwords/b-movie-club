@@ -9,7 +9,7 @@ public class WhenConvertingToDomain
 
     public WhenConvertingToDomain()
     {
-        _source = new Message(Guid.NewGuid(), "FooCreated");
+        _source = new Message(Guid.NewGuid(), "FooCreated", 123);
         _message = _source;
     }
 
@@ -25,6 +25,7 @@ public class WhenConvertingToDomain
         _message.Id.Should().Be(_source.Id);
         _message.Type.Value.Should().Be(_source.Type);
         _message.Timestamp.Should().Be(_source.Timestamp);
+        _message.Position.Should().Be(_source.Position);
     }
 
     #endregion
