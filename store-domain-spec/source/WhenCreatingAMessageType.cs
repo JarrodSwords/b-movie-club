@@ -1,4 +1,4 @@
-﻿namespace Store.Spec;
+﻿namespace Store.Domain.Spec;
 
 public class WhenCreatingAMessageType
 {
