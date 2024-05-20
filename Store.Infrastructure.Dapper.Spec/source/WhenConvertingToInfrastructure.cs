@@ -2,19 +2,34 @@
 
 public class WhenConvertingToInfrastructure
 {
+    #region Setup
+
+    private readonly Message _message;
+    private readonly DomainMessage _source;
+
+    public WhenConvertingToInfrastructure()
+    {
+        _source = new DomainMessage(MessageType.Create("FooCreated"));
+        _message = _source;
+    }
+
+    #endregion
+
     #region Requirements
 
     [Fact]
     public void ThenFieldsAreExpected()
     {
-        var source = new DomainMessage(MessageType.Create("FooCreated"));
-
-        Message message = source;
-
         using var scope = new AssertionScope();
 
-        message.Id.Should().Be(source.Id);
-        message.Type.Should().Be(source.Type);
+        _message.Id.Should().Be(_source.Id);
+        _message.Type.Should().Be(_source.Type);
+    }
+
+    [Fact]
+    public void ThenTimestampIsCreated()
+    {
+        _message.Timestamp.Should().NotBe(DateTime.MinValue);
     }
 
     #endregion
