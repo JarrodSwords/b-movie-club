@@ -22,7 +22,7 @@ public class WhenConvertingToDomain
     {
         using var scope = new AssertionScope();
 
-        _message.Id.Should().Be(_source.Id);
+        _message.Id.Value.Should().Be(_source.Id);
         _message.Type.Value.Should().Be(_source.Type);
         _message.Timestamp.Should().Be(_source.Timestamp);
         _message.Position.Should().Be(_source.Position);

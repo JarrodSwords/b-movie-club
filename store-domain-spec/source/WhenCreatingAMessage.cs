@@ -9,7 +9,7 @@ public class WhenCreatingAMessage
     {
         var message = new Message(MessageType.Create("FooCreated"), 123);
 
-        message.Id.Should().NotBeEmpty();
+        message.Id.Value.Should().NotBeEmpty();
     }
 
     [Fact]

@@ -4,6 +4,7 @@ public record Message
 {
     public Message(MessageType type, long position)
     {
+        Id = new();
         Type = type;
         Position = position;
     }
@@ -16,7 +17,7 @@ public record Message
         Position = position;
     }
 
-    public Guid Id { get; } = NewGuid();
+    public MessageId Id { get; }
     public long Position { get; }
     public DateTime Timestamp { get; }
     public MessageType Type { get; }
