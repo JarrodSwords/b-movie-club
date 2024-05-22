@@ -2,12 +2,6 @@
 
 namespace Store.Domain.Spec;
 
-public record FooRenamed(string Name);
-
-public record Bar(Guid Id);
-
-public record BarAdded(Bar Bar);
-
 public class WhenCreatingACandidateMessage
 {
     #region Setup
