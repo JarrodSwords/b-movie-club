@@ -20,6 +20,8 @@ public class Stream
     public Result<CandidateMessage> Next(MessageType messageType) =>
         new CandidateMessage(
             messageType,
-            _messages.Any() ? _messages.Last().Position + 1 : 0
+            _messages.Any()
+                ? _messages.Last().Position + 1
+                : 0
         );
 }
