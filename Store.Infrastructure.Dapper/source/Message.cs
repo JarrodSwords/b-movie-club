@@ -1,6 +1,6 @@
 ﻿namespace Store.Infrastructure.Dapper;
 
-public record Message(Guid Id, string Type, long Position)
+public record Message(Guid Id, string Type, ulong Position)
 {
     public DateTime Timestamp { get; } = DateTime.UtcNow;
 
