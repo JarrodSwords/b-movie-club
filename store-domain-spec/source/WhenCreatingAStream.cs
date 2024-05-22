@@ -2,18 +2,12 @@
 
 public class WhenCreatingAStream
 {
-    #region Setup
-
-    private static readonly Category _category = Category.Create("Foo");
-
-    #endregion
-
     #region Requirements
 
     [Fact]
     public void ThenStreamIdIsGenerated()
     {
-        var stream = new Stream(_category);
+        var stream = new Stream(ObjectProvider.Category);
 
         stream.Id.Should().NotBeNull();
     }

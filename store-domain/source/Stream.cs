@@ -8,4 +8,6 @@ public class Stream
     }
 
     public StreamId Id { get; }
+
+    public Result<CandidateMessage> Next(MessageType messageType) => new CandidateMessage(messageType, 0);
 }
