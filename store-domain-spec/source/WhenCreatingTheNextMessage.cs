@@ -2,6 +2,12 @@
 
 namespace Store.Domain.Spec;
 
+public record FooRenamed(string Name);
+
+public record Bar(Guid Id);
+
+public record BarAdded(Bar Bar);
+
 public class WhenCreatingACandidateMessage
 {
     #region Setup
@@ -17,7 +23,13 @@ public class WhenCreatingACandidateMessage
 
     #region Implementation
 
-    public static IEnumerable<object[]> CreateMessages()
+    public static IEnumerable<object[]> GetDataTestCases()
+    {
+        yield return new object[] { "FooRenamed", new FooRenamed("MyFoo") };
+        yield return new object[] { "BarAdded", new BarAdded(new Bar(NewGuid())) };
+    }
+
+    public static IEnumerable<object[]> GetExpectedPositionTestCases()
     {
         var fooCreated = new Message(NewGuid(), "FooCreated", DateTime.UtcNow, 0);
         var fooRenamed = new Message(NewGuid(), "FooRenamed", DateTime.UtcNow, 1);
@@ -38,6 +50,15 @@ public class WhenCreatingACandidateMessage
         candidateMessage.ExpectedPosition.Should().Be(0);
     }
 
+    [Theory]
+    [MemberData(nameof(GetDataTestCases))]
+    public void ThenDataIsExpected(string messageType, object data)
+    {
+        var candidateMessage = _stream.Next(MessageType.Create(messageType), data).Value!;
+
+        candidateMessage.Data.Should().Be(data);
+    }
+
     [Fact]
     public void ThenMessageIdIsGenerated()
     {
@@ -49,7 +70,17 @@ public class WhenCreatingACandidateMessage
     }
 
     [Theory]
-    [MemberData(nameof(CreateMessages))]
+    [InlineData("FooRenamed")]
+    [InlineData("BarAdded")]
+    public void ThenMessageTypeIsExpected(string messageType)
+    {
+        var candidateMessage = _stream.Next(MessageType.Create(messageType)).Value!;
+
+        candidateMessage.MessageType.Value.Should().Be(messageType);
+    }
+
+    [Theory]
+    [MemberData(nameof(GetExpectedPositionTestCases))]
     public void ThenPositionIsStreamVersionPlus1(ulong expectedPosition, params Message[] messages)
     {
         var stream = new Stream(messages);
