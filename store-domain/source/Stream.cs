@@ -17,7 +17,10 @@ public class Stream
 
     public StreamId Id { get; }
 
-    public Result<CandidateMessage> Next(MessageType messageType, object? data = null) =>
+    public Result<CandidateMessage> Next(
+        MessageType messageType,
+        object? data = null
+    ) =>
         new CandidateMessage(
             messageType,
             data ?? new object(),
