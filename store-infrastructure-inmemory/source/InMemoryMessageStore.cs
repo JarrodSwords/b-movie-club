@@ -8,7 +8,13 @@ public class InMemoryMessageStore : IMessageStore
     {
         var message = _messages.Single(x => x.Id == id.Value);
 
-        return new DomainMessage(message.Id, message.Type, message.Timestamp, message.Position);
+        return new DomainMessage(
+            message.Id,
+            message.Type,
+            message.Timestamp,
+            message.Position,
+            message.GlobalPosition
+        );
     }
 
     public Result Push(CandidateMessage candidateMessage)
@@ -17,7 +23,8 @@ public class InMemoryMessageStore : IMessageStore
             candidateMessage.MessageId,
             candidateMessage.MessageType,
             DateTime.UtcNow,
-            0
+            0,
+            (ulong) _messages.Count
         );
 
         _messages.Add(message);

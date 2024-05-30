@@ -9,7 +9,7 @@ public class WhenConvertingToDomain
 
     public WhenConvertingToDomain()
     {
-        _source = new Message(Guid.NewGuid(), "FooCreated", 123);
+        _source = new Message(Guid.NewGuid(), "FooCreated", 123, 3454);
         _message = _source;
     }
 
