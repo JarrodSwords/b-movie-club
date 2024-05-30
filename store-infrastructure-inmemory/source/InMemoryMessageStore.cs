@@ -1,10 +1,6 @@
-﻿using Jgs.Errors.Results;
-using Store.Domain;
-using static Jgs.Errors.Results.Result;
+﻿namespace Store.Infrastructure.InMemory;
 
-namespace Store.Infrastructure.Dapper;
-
-public class MessageStore : IMessageStore
+public class InMemoryMessageStore : IMessageStore
 {
     private readonly List<Message> _messages = new();
 
@@ -20,6 +16,7 @@ public class MessageStore : IMessageStore
         var message = new Message(
             candidateMessage.MessageId,
             candidateMessage.MessageType,
+            DateTime.UtcNow,
             0
         );
 

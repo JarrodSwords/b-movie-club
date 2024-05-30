@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Store.Infrastructure.Dapper
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Store.Infrastructure.Dapper.Spec", "Store.Infrastructure.Dapper.Spec\Store.Infrastructure.Dapper.Spec.csproj", "{4638405A-FD09-4243-868E-DB2790428A69}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Store.Infrastructure.InMemory", "store-infrastructure-inmemory\Store.Infrastructure.InMemory.csproj", "{70731D9E-4BB0-4897-88BE-7A4BD14C473C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Store.Infrastructure.InMemory.Spec", "store-infrastructure-inmemory-spec\Store.Infrastructure.InMemory.Spec.csproj", "{E85E1F5A-407E-462B-9B3A-B718E204A856}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{4638405A-FD09-4243-868E-DB2790428A69}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4638405A-FD09-4243-868E-DB2790428A69}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4638405A-FD09-4243-868E-DB2790428A69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70731D9E-4BB0-4897-88BE-7A4BD14C473C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70731D9E-4BB0-4897-88BE-7A4BD14C473C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70731D9E-4BB0-4897-88BE-7A4BD14C473C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70731D9E-4BB0-4897-88BE-7A4BD14C473C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E85E1F5A-407E-462B-9B3A-B718E204A856}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E85E1F5A-407E-462B-9B3A-B718E204A856}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E85E1F5A-407E-462B-9B3A-B718E204A856}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E85E1F5A-407E-462B-9B3A-B718E204A856}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
