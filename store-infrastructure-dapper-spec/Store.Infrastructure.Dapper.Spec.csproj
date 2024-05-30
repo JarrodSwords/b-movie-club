@@ -26,7 +26,7 @@
   <ItemGroup>
     <ProjectReference Include="..\store-domain-spec\Store.Domain.Spec.csproj" />
     <ProjectReference Include="..\store-domain\Store.Domain.csproj" />
-    <ProjectReference Include="..\Store.Infrastructure.Dapper\Store.Infrastructure.Dapper.csproj" />
+    <ProjectReference Include="..\store-infrastructure-dapper\Store.Infrastructure.Dapper.csproj" />
   </ItemGroup>
 
 </Project>
