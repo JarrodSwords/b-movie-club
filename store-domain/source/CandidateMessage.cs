@@ -7,4 +7,6 @@ public record CandidateMessage(
 )
 {
     public MessageId MessageId { get; } = new();
+
+    //public virtual bool Equals(Message message) => MessageId == message.Id;
 }

@@ -10,3 +10,5 @@ public record BarAdded(Bar Bar);
 public record FooRenamed(string Name);
 
 public record Bar(Guid Id);
+
+public record FooCreated;
