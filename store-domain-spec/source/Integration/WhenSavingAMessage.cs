@@ -29,6 +29,22 @@ public abstract class WhenSavingAMessage
     #region Requirements
 
     [Fact]
+    public void ThenFieldsAreExpected()
+    {
+        var createFoo = new CandidateMessage(MessageType.Create("CreateFoo"), null, 0);
+
+        _store.Push(createFoo);
+
+        var message = _store.Find(createFoo.MessageId).Value!;
+
+        using var scope = new AssertionScope();
+
+        message.Id.Should().Be(createFoo.MessageId);
+        message.Type.Should().Be(createFoo.MessageType);
+        message.Position.Should().Be(createFoo.ExpectedPosition);
+    }
+
+    [Fact]
     public void ThenGlobalPositionIsPreviousMaxPlusOne()
     {
         var createFoo1 = new CandidateMessage(MessageType.Create("CreateFoo"), null, 0);
@@ -59,6 +75,18 @@ public abstract class WhenSavingAMessage
         var message = _store.Find(createFoo.MessageId).Value!;
 
         message.Id.Should().Be(createFoo.MessageId);
+    }
+
+    [Fact]
+    public void ThenTimestampIsCreated()
+    {
+        var createFoo = new CandidateMessage(MessageType.Create("CreateFoo"), null, 0);
+
+        _store.Push(createFoo);
+
+        var message = _store.Find(createFoo.MessageId).Value!;
+
+        message.Timestamp.Should().NotBe(DateTime.MinValue);
     }
 
     #endregion
