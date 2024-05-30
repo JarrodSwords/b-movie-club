@@ -1,6 +1,6 @@
 ﻿namespace Store.Infrastructure.InMemory.Spec.Integration;
 
-public class WhenSavingAMessage : Domain.Spec.Integration.WhenSavingAMessage
+public class WhenPushingAMessage : Domain.Spec.Integration.WhenPushingAMessage
 {
     public override IMessageStore CreateMessageStore() => new InMemoryMessageStore();
 }

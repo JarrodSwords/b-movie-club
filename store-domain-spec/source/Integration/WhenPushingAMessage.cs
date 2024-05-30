@@ -7,13 +7,13 @@ namespace Store.Domain.Spec.Integration;
 /// <remarks>
 ///     This integration test should be inherited by any candidate implementations.
 /// </remarks>
-public abstract class WhenSavingAMessage
+public abstract class WhenPushingAMessage
 {
     #region Setup
 
     private readonly IMessageStore _store;
 
-    protected WhenSavingAMessage()
+    protected WhenPushingAMessage()
     {
         _store = CreateMessageStore();
     }
@@ -78,15 +78,21 @@ public abstract class WhenSavingAMessage
     }
 
     [Fact]
-    public void ThenTimestampIsCreated()
+    public void ThenTimestampIsGenerated()
     {
         var createFoo = new CandidateMessage(MessageType.Create("CreateFoo"), null, 0);
+        var renameFoo = new CandidateMessage(MessageType.Create("RenameFoo"), null, 0);
 
         _store.Push(createFoo);
+        _store.Push(renameFoo);
 
-        var message = _store.Find(createFoo.MessageId).Value!;
+        var message1 = _store.Find(createFoo.MessageId).Value!;
+        var message2 = _store.Find(renameFoo.MessageId).Value!;
 
-        message.Timestamp.Should().NotBe(DateTime.MinValue);
+        using var scope = new AssertionScope();
+
+        message1.Timestamp.Should().NotBe(DateTime.MinValue);
+        message2.Timestamp.Should().BeAfter(message1.Timestamp);
     }
 
     #endregion
