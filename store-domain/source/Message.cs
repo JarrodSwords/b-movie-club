@@ -2,11 +2,25 @@
 
 public record Message
 {
-    public Message(Guid id, string type, DateTime timestamp, uint position, ulong globalPosition)
+    public Message(
+        Guid id,
+        Guid entityId,
+        string category,
+        ulong globalPosition,
+        bool isCommand,
+        uint position,
+        DateTime timestamp,
+        string type
+    )
     {
         Id = id;
         Type = MessageType.Create(type);
-        Metadata = new Metadata(globalPosition, position, timestamp);
+        Metadata = new Metadata(
+            globalPosition,
+            position,
+            new StreamId(Category.Create(category), new(entityId), isCommand),
+            timestamp
+        );
     }
 
     public MessageId Id { get; }

@@ -4,6 +4,12 @@ namespace Store.Domain.Spec.Store;
 
 public abstract partial class WhenPushingAMessage
 {
+    #region Setup
+
+    private readonly StreamId EventStreamId = new(Category.Create("FooManagement"), new(), true);
+
+    #endregion
+
     #region Implementation
 
     public static IEnumerable<object[]> GetData()
@@ -20,9 +26,9 @@ public abstract partial class WhenPushingAMessage
     [Fact]
     public void ThenGlobalPositionIsPreviousMaxPlus1()
     {
-        var createFoo1 = new CandidateMessage(new CreateFoo(), 0);
-        var renameFoo = new CandidateMessage(new RenameFoo(), 0);
-        var createFoo2 = new CandidateMessage(new CreateFoo(), 0);
+        var createFoo1 = new CandidateMessage(new CreateFoo(), 0, _commandStreamId);
+        var renameFoo = new CandidateMessage(new RenameFoo(), 0, _commandStreamId);
+        var createFoo2 = new CandidateMessage(new CreateFoo(), 0, _commandStreamId);
 
         _store.Push(createFoo1);
         _store.Push(renameFoo);
@@ -42,7 +48,7 @@ public abstract partial class WhenPushingAMessage
     [MemberData(nameof(GetData))]
     public void ThenMessageTypeIsDataTypeName(object data)
     {
-        var candidateMessage = new CandidateMessage(data, 0);
+        var candidateMessage = new CandidateMessage(data, 0, EventStreamId);
 
         _store.Push(candidateMessage);
 
@@ -54,8 +60,8 @@ public abstract partial class WhenPushingAMessage
     [Fact]
     public void ThenTimestampIsGenerated()
     {
-        var createFoo = new CandidateMessage(new CreateFoo(), 0);
-        var renameFoo = new CandidateMessage(new RenameFoo(), 0);
+        var createFoo = new CandidateMessage(new CreateFoo(), 0, _commandStreamId);
+        var renameFoo = new CandidateMessage(new RenameFoo(), 0, _commandStreamId);
 
         _store.Push(createFoo);
         _store.Push(renameFoo);

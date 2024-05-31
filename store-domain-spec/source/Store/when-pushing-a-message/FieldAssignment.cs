@@ -9,7 +9,7 @@ public abstract partial class WhenPushingAMessage
     [Fact]
     public void ThenFieldsAreExpected()
     {
-        var createFoo = new CandidateMessage(new CreateFoo(), 0);
+        var createFoo = new CandidateMessage(new CreateFoo(), 0, _commandStreamId);
 
         _store.Push(createFoo);
 

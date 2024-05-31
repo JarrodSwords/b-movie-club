@@ -9,7 +9,7 @@ public class Category : TinyType<string>
     public static Result<Category> Create(string value) =>
         string.IsNullOrWhiteSpace(value)
             ? CategoryRequired()
-            : new(value);
+            : new Category(value);
 
     public static Error CategoryRequired() => new($"{nameof(Category)} is required.");
 }

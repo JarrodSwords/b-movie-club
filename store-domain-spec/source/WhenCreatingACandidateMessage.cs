@@ -25,8 +25,8 @@ public class WhenCreatingACandidateMessage
 
     public static IEnumerable<object[]> GetExpectedPositionTestCases()
     {
-        var fooCreated = new Message(NewGuid(), "FooCreated", UtcNow, 0, 0);
-        var fooRenamed = new Message(NewGuid(), "FooRenamed", UtcNow, 1, 1);
+        var fooCreated = new Message(NewGuid(), NewGuid(), "FooManagement", 0, false, 0, UtcNow, "FooCreated");
+        var fooRenamed = new Message(NewGuid(), NewGuid(), "FooManagement", 1, false, 1, UtcNow, "FooRenamed");
 
         yield return new object[] { 1, fooCreated };
         yield return new object[] { 2, fooCreated, fooRenamed };
@@ -68,8 +68,9 @@ public class WhenCreatingACandidateMessage
     public void ThenPositionIsStreamVersionPlus1(uint expectedPosition, params Message[] messages)
     {
         var stream = new Stream(messages);
+        var barAdded = new BarAdded(new Bar(NewGuid()));
 
-        var candidateMessage = stream.Next(MessageType.Create("BarAdded")).Value!;
+        var candidateMessage = stream.Next(barAdded).Value!;
 
         candidateMessage.Expected.Should().Be(expectedPosition);
     }

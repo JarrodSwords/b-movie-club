@@ -21,10 +21,11 @@ public class Stream
         object? data = null
     ) =>
         new CandidateMessage(
-            data ?? new object(),
+            data,
             _messages.Any()
                 ? _messages.Last().Metadata.Position + 1
-                : 0
+                : 0,
+            Id
         );
 }
 

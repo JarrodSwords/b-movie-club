@@ -8,8 +8,10 @@ public class WhenRehydratingAMessage
 
     public static IEnumerable<object[]> GetMessageParameters()
     {
-        yield return new object[] { NewGuid(), "FooCreated", UtcNow, 1, 2 };
-        yield return new object[] { NewGuid(), "FooRenamed", UtcNow, 4, 7 };
+        var entityId = NewGuid();
+
+        yield return new object[] { NewGuid(), entityId, "FooManagement", 2, false, 1, UtcNow, "FooCreated" };
+        yield return new object[] { NewGuid(), entityId, "FooManagement", 7, false, 4, UtcNow, "FooRenamed" };
     }
 
     #endregion
@@ -18,15 +20,40 @@ public class WhenRehydratingAMessage
 
     [Theory]
     [MemberData(nameof(GetMessageParameters))]
-    public void ThenFieldsAreExpected(Guid id, string type, DateTime timestamp, uint position, ulong globalPosition)
+    public void ThenFieldsAreExpected(
+        Guid id,
+        Guid entityId,
+        string category,
+        ulong globalPosition,
+        bool isCommand,
+        uint position,
+        DateTime timestamp,
+        string type
+    )
     {
-        var message = new Message(id, type, timestamp, position, globalPosition);
+        var message = new Message(
+            id,
+            entityId,
+            category,
+            globalPosition,
+            isCommand,
+            position,
+            timestamp,
+            type
+        );
 
         using var scope = new AssertionScope();
 
         message.Id.Should().Be(id);
         message.Type.Should().Be(type);
-        message.Metadata.Should().Be(new Metadata(globalPosition, position, timestamp));
+        message.Metadata.Should().Be(
+            new Metadata(
+                globalPosition,
+                position,
+                new StreamId(Category.Create(category), new(entityId), isCommand),
+                timestamp
+            )
+        );
     }
 
     #endregion

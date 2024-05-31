@@ -2,10 +2,9 @@
 
 public record CandidateMessage(
     object Data,
-    Position Expected
+    Position Expected,
+    StreamId StreamId
 )
 {
     public MessageId MessageId { get; } = new();
-
-    //public virtual bool Equals(Message message) => MessageId == message.Id;
 }

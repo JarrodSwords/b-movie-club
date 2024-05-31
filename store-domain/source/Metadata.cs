@@ -35,5 +35,11 @@ public class Position : TinyType<uint>
 /// </summary>
 /// <param name="GlobalPosition"></param>
 /// <param name="Position"></param>
+/// <param name="StreamId"></param>
 /// <param name="Timestamp">When a <see cref="Message" /> was written to the <see cref="IMessageStore" />.</param>
-public record Metadata(GlobalPosition GlobalPosition, Position Position, DateTime Timestamp);
+public record Metadata(
+    GlobalPosition GlobalPosition,
+    Position Position,
+    StreamId StreamId,
+    DateTime Timestamp
+);
