@@ -8,8 +8,8 @@ public class WhenRehydratingAMessage
 
     public static IEnumerable<object[]> GetMessageParameters()
     {
-        yield return new object[] { NewGuid(), "FooCreated", DateTime.UtcNow, 1, 2 };
-        yield return new object[] { NewGuid(), "FooRenamed", DateTime.UtcNow, 4, 7 };
+        yield return new object[] { NewGuid(), "FooCreated", UtcNow, 1, 2 };
+        yield return new object[] { NewGuid(), "FooRenamed", UtcNow, 4, 7 };
     }
 
     #endregion

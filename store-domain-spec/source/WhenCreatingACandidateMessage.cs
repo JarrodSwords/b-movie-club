@@ -25,8 +25,8 @@ public class WhenCreatingACandidateMessage
 
     public static IEnumerable<object[]> GetExpectedPositionTestCases()
     {
-        var fooCreated = new Message(NewGuid(), "FooCreated", DateTime.UtcNow, 0, 0);
-        var fooRenamed = new Message(NewGuid(), "FooRenamed", DateTime.UtcNow, 1, 1);
+        var fooCreated = new Message(NewGuid(), "FooCreated", UtcNow, 0, 0);
+        var fooRenamed = new Message(NewGuid(), "FooRenamed", UtcNow, 1, 1);
 
         yield return new object[] { 1, fooCreated };
         yield return new object[] { 2, fooCreated, fooRenamed };
