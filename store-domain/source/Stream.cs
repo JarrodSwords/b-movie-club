@@ -29,3 +29,5 @@ public class Stream
                 : 0
         );
 }
+
+public record StreamId(Category Category, EntityId EntityId, bool IsCommand);
