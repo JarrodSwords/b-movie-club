@@ -2,11 +2,6 @@
 
 namespace Store.Domain.Spec.Store;
 
-/// <summary>
-/// </summary>
-/// <remarks>
-///     This integration test should be inherited by any candidate implementations.
-/// </remarks>
 public abstract partial class WhenPushingAMessage
 {
     #region Requirements
@@ -14,7 +9,7 @@ public abstract partial class WhenPushingAMessage
     [Fact]
     public void ThenFieldsAreExpected()
     {
-        var createFoo = new CandidateMessage(MessageType.Create("CreateFoo"), null, 0);
+        var createFoo = new CandidateMessage(new CreateFoo(), 0);
 
         _store.Push(createFoo);
 
@@ -23,7 +18,6 @@ public abstract partial class WhenPushingAMessage
         using var scope = new AssertionScope();
 
         message.Id.Should().Be(createFoo.MessageId);
-        message.Type.Should().Be(createFoo.MessageType);
         message.Metadata.Position.Should().Be(createFoo.Expected);
     }
 

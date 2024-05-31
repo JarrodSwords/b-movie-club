@@ -1,7 +1,6 @@
 ﻿namespace Store.Domain;
 
 public record CandidateMessage(
-    MessageType MessageType,
     object Data,
     Position Expected
 )

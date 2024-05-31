@@ -19,8 +19,8 @@ public class WhenCreatingACandidateMessage
 
     public static IEnumerable<object[]> GetDataTestCases()
     {
-        yield return new object[] { "FooRenamed", new FooRenamed("MyFoo") };
-        yield return new object[] { "BarAdded", new BarAdded(new Bar(NewGuid())) };
+        yield return new object[] { new FooRenamed("MyFoo") };
+        yield return new object[] { new BarAdded(new Bar(NewGuid())) };
     }
 
     public static IEnumerable<object[]> GetExpectedPositionTestCases()
@@ -46,9 +46,9 @@ public class WhenCreatingACandidateMessage
 
     [Theory]
     [MemberData(nameof(GetDataTestCases))]
-    public void ThenDataIsExpected(string messageType, object data)
+    public void ThenDataIsExpected(object data)
     {
-        var candidateMessage = _stream.Next(MessageType.Create(messageType), data).Value!;
+        var candidateMessage = _stream.Next(data).Value!;
 
         candidateMessage.Data.Should().Be(data);
     }
@@ -61,16 +61,6 @@ public class WhenCreatingACandidateMessage
         using var scope = new AssertionScope();
         candidateMessage.MessageId.Should().NotBeNull();
         candidateMessage.MessageId.Value.Should().NotBeEmpty();
-    }
-
-    [Theory]
-    [InlineData("FooRenamed")]
-    [InlineData("BarAdded")]
-    public void ThenMessageTypeIsExpected(string messageType)
-    {
-        var candidateMessage = _stream.Next(MessageType.Create(messageType)).Value!;
-
-        candidateMessage.MessageType.Should().Be(messageType);
     }
 
     [Theory]

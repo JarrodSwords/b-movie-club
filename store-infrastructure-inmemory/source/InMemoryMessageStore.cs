@@ -21,7 +21,7 @@ public class InMemoryMessageStore : IMessageStore
     {
         var message = new Message(
             candidateMessage.MessageId,
-            candidateMessage.MessageType,
+            candidateMessage.Data.GetType().Name,
             DateTime.UtcNow,
             0,
             (ulong) _messages.Count

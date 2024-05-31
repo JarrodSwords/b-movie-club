@@ -1,9 +1,7 @@
 ﻿namespace Store.Domain.Spec.Store;
 
-/// <summary>
-/// </summary>
 /// <remarks>
-///     This integration test should be inherited by any candidate implementations.
+///     This integration test should be inherited by any candidate implementations of <see cref="IMessageStore" />.
 /// </remarks>
 public abstract partial class WhenPushingAMessage
 {
@@ -29,7 +27,7 @@ public abstract partial class WhenPushingAMessage
     [Fact]
     public void ThenMessageIsRetrievable()
     {
-        var createFoo = new CandidateMessage(MessageType.Create("CreateFoo"), null, 0);
+        var createFoo = new CandidateMessage(new CreateFoo(), 0);
 
         _store.Push(createFoo);
 

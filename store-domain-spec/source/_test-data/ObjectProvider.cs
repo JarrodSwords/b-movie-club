@@ -12,3 +12,7 @@ public record FooRenamed(string Name);
 public record Bar(Guid Id);
 
 public record FooCreated;
+
+public record CreateFoo;
+
+public record RenameFoo;

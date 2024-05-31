@@ -18,11 +18,9 @@ public class Stream
     public StreamId Id { get; }
 
     public Result<CandidateMessage> Next(
-        MessageType messageType,
         object? data = null
     ) =>
         new CandidateMessage(
-            messageType,
             data ?? new object(),
             _messages.Any()
                 ? _messages.Last().Metadata.Position + 1

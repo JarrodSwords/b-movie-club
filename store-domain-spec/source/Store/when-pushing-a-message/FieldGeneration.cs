@@ -2,21 +2,27 @@
 
 namespace Store.Domain.Spec.Store;
 
-/// <summary>
-/// </summary>
-/// <remarks>
-///     This integration test should be inherited by any candidate implementations.
-/// </remarks>
 public abstract partial class WhenPushingAMessage
 {
+    #region Implementation
+
+    public static IEnumerable<object[]> GetMessageTypes()
+    {
+        yield return new object[] { new FooCreated(), nameof(FooCreated) };
+        yield return new object[] { new FooRenamed("TheFoo"), nameof(FooRenamed) };
+        yield return new object[] { new BarAdded(new Bar(NewGuid())), nameof(BarAdded) };
+    }
+
+    #endregion
+
     #region Requirements
 
     [Fact]
-    public void ThenGlobalPositionIsPreviousMaxPlusOne()
+    public void ThenGlobalPositionIsPreviousMaxPlus1()
     {
-        var createFoo1 = new CandidateMessage(MessageType.Create("CreateFoo"), null, 0);
-        var renameFoo = new CandidateMessage(MessageType.Create("RenameFoo"), null, 0);
-        var createFoo2 = new CandidateMessage(MessageType.Create("CreateFoo"), null, 0);
+        var createFoo1 = new CandidateMessage(new CreateFoo(), 0);
+        var renameFoo = new CandidateMessage(new RenameFoo(), 0);
+        var createFoo2 = new CandidateMessage(new CreateFoo(), 0);
 
         _store.Push(createFoo1);
         _store.Push(renameFoo);
@@ -32,11 +38,24 @@ public abstract partial class WhenPushingAMessage
         message3.Metadata.GlobalPosition.Should().Be(2ul);
     }
 
+    [Theory]
+    [MemberData(nameof(GetMessageTypes))]
+    public void ThenMessageTypeIsGenerated(object data, string expectedMessageType)
+    {
+        var candidateMessage = new CandidateMessage(data, 0);
+
+        _store.Push(candidateMessage);
+
+        var message = _store.Find(candidateMessage.MessageId).Value!;
+
+        message.Type.Should().Be(expectedMessageType);
+    }
+
     [Fact]
     public void ThenTimestampIsGenerated()
     {
-        var createFoo = new CandidateMessage(MessageType.Create("CreateFoo"), null, 0);
-        var renameFoo = new CandidateMessage(MessageType.Create("RenameFoo"), null, 0);
+        var createFoo = new CandidateMessage(new CreateFoo(), 0);
+        var renameFoo = new CandidateMessage(new RenameFoo(), 0);
 
         _store.Push(createFoo);
         _store.Push(renameFoo);
@@ -45,7 +64,6 @@ public abstract partial class WhenPushingAMessage
         var message2 = _store.Find(renameFoo.MessageId).Value!;
 
         using var scope = new AssertionScope();
-
         message1.Metadata.Timestamp.Should().NotBe(MinValue);
         message2.Metadata.Timestamp.Should().BeAfter(message1.Metadata.Timestamp);
     }
