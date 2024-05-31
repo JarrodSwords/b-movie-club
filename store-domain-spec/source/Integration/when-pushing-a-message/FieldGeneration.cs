@@ -7,42 +7,9 @@ namespace Store.Domain.Spec.Integration;
 /// <remarks>
 ///     This integration test should be inherited by any candidate implementations.
 /// </remarks>
-public abstract class WhenPushingAMessage
+public abstract partial class WhenPushingAMessage
 {
-    #region Setup
-
-    private readonly IMessageStore _store;
-
-    protected WhenPushingAMessage()
-    {
-        _store = CreateMessageStore();
-    }
-
-    #endregion
-
-    #region Implementation
-
-    public abstract IMessageStore CreateMessageStore();
-
-    #endregion
-
     #region Requirements
-
-    [Fact]
-    public void ThenFieldsAreExpected()
-    {
-        var createFoo = new CandidateMessage(MessageType.Create("CreateFoo"), null, 0);
-
-        _store.Push(createFoo);
-
-        var message = _store.Find(createFoo.MessageId).Value!;
-
-        using var scope = new AssertionScope();
-
-        message.Id.Should().Be(createFoo.MessageId);
-        message.Type.Should().Be(createFoo.MessageType);
-        message.Position.Should().Be(createFoo.ExpectedPosition);
-    }
 
     [Fact]
     public void ThenGlobalPositionIsPreviousMaxPlusOne()
@@ -63,18 +30,6 @@ public abstract class WhenPushingAMessage
         message1.GlobalPosition.Should().Be(0);
         message2.GlobalPosition.Should().Be(1);
         message3.GlobalPosition.Should().Be(2);
-    }
-
-    [Fact]
-    public void ThenMessageIsRetrievable()
-    {
-        var createFoo = new CandidateMessage(MessageType.Create("CreateFoo"), null, 0);
-
-        _store.Push(createFoo);
-
-        var message = _store.Find(createFoo.MessageId).Value!;
-
-        message.Id.Should().Be(createFoo.MessageId);
     }
 
     [Fact]
