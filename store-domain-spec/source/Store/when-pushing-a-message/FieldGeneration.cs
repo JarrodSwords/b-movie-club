@@ -1,6 +1,6 @@
 ﻿using FluentAssertions.Execution;
 
-namespace Store.Domain.Spec.Integration;
+namespace Store.Domain.Spec.Store;
 
 /// <summary>
 /// </summary>

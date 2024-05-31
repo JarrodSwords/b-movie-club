@@ -4,11 +4,11 @@ public class InMemoryMessageStore : IMessageStore
 {
     private readonly List<Message> _messages = new();
 
-    public Result<DomainMessage> Find(MessageId id)
+    public Result<Message> Find(MessageId id)
     {
         var message = _messages.Single(x => x.Id == id.Value);
 
-        return new DomainMessage(
+        return new Message(
             message.Id,
             message.Type,
             message.Timestamp,

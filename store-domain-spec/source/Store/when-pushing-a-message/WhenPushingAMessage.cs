@@ -1,6 +1,4 @@
-﻿using FluentAssertions.Execution;
-
-namespace Store.Domain.Spec.Integration;
+﻿namespace Store.Domain.Spec.Store;
 
 /// <summary>
 /// </summary>
@@ -9,10 +7,27 @@ namespace Store.Domain.Spec.Integration;
 /// </remarks>
 public abstract partial class WhenPushingAMessage
 {
+    #region Setup
+
+    private readonly IMessageStore _store;
+
+    protected WhenPushingAMessage()
+    {
+        _store = CreateMessageStore();
+    }
+
+    #endregion
+
+    #region Implementation
+
+    public abstract IMessageStore CreateMessageStore();
+
+    #endregion
+
     #region Requirements
 
     [Fact]
-    public void ThenFieldsAreExpected()
+    public void ThenMessageIsRetrievable()
     {
         var createFoo = new CandidateMessage(MessageType.Create("CreateFoo"), null, 0);
 
@@ -20,11 +35,7 @@ public abstract partial class WhenPushingAMessage
 
         var message = _store.Find(createFoo.MessageId).Value!;
 
-        using var scope = new AssertionScope();
-
         message.Id.Should().Be(createFoo.MessageId);
-        message.Type.Should().Be(createFoo.MessageType);
-        message.Position.Should().Be(createFoo.ExpectedPosition);
     }
 
     #endregion

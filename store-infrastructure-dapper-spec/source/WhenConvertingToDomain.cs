@@ -1,5 +1,6 @@
 ﻿namespace Store.Infrastructure.Dapper.Spec;
 
+[Obsolete]
 public class WhenConvertingToDomain
 {
     #region Setup
