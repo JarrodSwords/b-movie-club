@@ -41,7 +41,7 @@ public class WhenCreatingACandidateMessage
     {
         var candidateMessage = _stream.Next(MessageType.Create("FooRegistered")).Value!;
 
-        candidateMessage.ExpectedPosition.Should().Be(0);
+        candidateMessage.Expected.Should().Be(0u);
     }
 
     [Theory]
@@ -75,13 +75,13 @@ public class WhenCreatingACandidateMessage
 
     [Theory]
     [MemberData(nameof(GetExpectedPositionTestCases))]
-    public void ThenPositionIsStreamVersionPlus1(ulong expectedPosition, params Message[] messages)
+    public void ThenPositionIsStreamVersionPlus1(uint expectedPosition, params Message[] messages)
     {
         var stream = new Stream(messages);
 
         var candidateMessage = stream.Next(MessageType.Create("BarAdded")).Value!;
 
-        candidateMessage.ExpectedPosition.Should().Be(expectedPosition);
+        candidateMessage.Expected.Should().Be(expectedPosition);
     }
 
     #endregion

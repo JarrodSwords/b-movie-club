@@ -3,7 +3,7 @@
 public record CandidateMessage(
     MessageType MessageType,
     object Data,
-    ulong ExpectedPosition
+    Position Expected
 )
 {
     public MessageId MessageId { get; } = new();

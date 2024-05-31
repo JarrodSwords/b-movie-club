@@ -11,9 +11,9 @@ public class InMemoryMessageStore : IMessageStore
         return new Message(
             message.Id,
             message.Type,
-            message.Timestamp,
-            message.Position,
-            message.GlobalPosition
+            message.Metadata.Timestamp,
+            message.Metadata.Position,
+            message.Metadata.GlobalPosition
         );
     }
 

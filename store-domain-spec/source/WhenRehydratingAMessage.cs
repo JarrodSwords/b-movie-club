@@ -18,7 +18,7 @@ public class WhenRehydratingAMessage
 
     [Theory]
     [MemberData(nameof(GetMessageParameters))]
-    public void ThenFieldsAreExpected(Guid id, string type, DateTime timestamp, ulong position, ulong globalPosition)
+    public void ThenFieldsAreExpected(Guid id, string type, DateTime timestamp, uint position, ulong globalPosition)
     {
         var message = new Message(id, type, timestamp, position, globalPosition);
 
@@ -26,9 +26,7 @@ public class WhenRehydratingAMessage
 
         message.Id.Should().Be(id);
         message.Type.Should().Be(type);
-        message.Timestamp.Should().Be(timestamp);
-        message.Position.Should().Be(position);
-        message.GlobalPosition.Should().Be(globalPosition);
+        message.Metadata.Should().Be(new Metadata(globalPosition, position, timestamp));
     }
 
     #endregion

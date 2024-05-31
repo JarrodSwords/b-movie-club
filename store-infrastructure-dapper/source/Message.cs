@@ -3,13 +3,19 @@
 public record Message(
     Guid Id,
     string Type,
-    ulong Position,
+    uint Position,
     ulong GlobalPosition
 )
 {
     public DateTime Timestamp { get; } = DateTime.UtcNow;
 
-    public static implicit operator Message(DomainMessage source) => new(source.Id, source.Type, source.Position, 0);
+    public static implicit operator Message(DomainMessage source) =>
+        new(
+            source.Id,
+            source.Type,
+            source.Metadata.Position,
+            0
+        );
 
     public static implicit operator DomainMessage(Message source) =>
         new(

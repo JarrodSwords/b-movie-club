@@ -24,7 +24,7 @@ public abstract partial class WhenPushingAMessage
 
         message.Id.Should().Be(createFoo.MessageId);
         message.Type.Should().Be(createFoo.MessageType);
-        message.Position.Should().Be(createFoo.ExpectedPosition);
+        message.Metadata.Position.Should().Be(createFoo.Expected);
     }
 
     #endregion

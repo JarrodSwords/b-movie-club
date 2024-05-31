@@ -25,7 +25,7 @@ public class Stream
             messageType,
             data ?? new object(),
             _messages.Any()
-                ? _messages.Last().Position + 1
+                ? _messages.Last().Metadata.Position + 1
                 : 0
         );
 }

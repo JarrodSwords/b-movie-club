@@ -25,8 +25,8 @@ public class WhenConvertingToDomain
 
         _message.Id.Should().Be(_source.Id);
         _message.Type.Should().Be(_source.Type);
-        _message.Timestamp.Should().Be(_source.Timestamp);
-        _message.Position.Should().Be(_source.Position);
+        _message.Metadata.Timestamp.Should().Be(_source.Timestamp);
+        _message.Metadata.Position.Should().Be(_source.Position);
     }
 
     #endregion

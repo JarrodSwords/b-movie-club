@@ -27,9 +27,9 @@ public abstract partial class WhenPushingAMessage
         var message3 = _store.Find(createFoo2.MessageId).Value!;
 
         using var scope = new AssertionScope();
-        message1.GlobalPosition.Should().Be(0);
-        message2.GlobalPosition.Should().Be(1);
-        message3.GlobalPosition.Should().Be(2);
+        message1.Metadata.GlobalPosition.Should().Be(0ul);
+        message2.Metadata.GlobalPosition.Should().Be(1ul);
+        message3.Metadata.GlobalPosition.Should().Be(2ul);
     }
 
     [Fact]
@@ -46,8 +46,8 @@ public abstract partial class WhenPushingAMessage
 
         using var scope = new AssertionScope();
 
-        message1.Timestamp.Should().NotBe(DateTime.MinValue);
-        message2.Timestamp.Should().BeAfter(message1.Timestamp);
+        message1.Metadata.Timestamp.Should().NotBe(MinValue);
+        message2.Metadata.Timestamp.Should().BeAfter(message1.Metadata.Timestamp);
     }
 
     #endregion
