@@ -6,7 +6,7 @@ public class InMemoryMessageStore : IMessageStore
 
     public Result<Message> Find(MessageId id)
     {
-        var message = _messages.Single(x => x.Id == id.Value);
+        var message = _messages.Single(x => x.Id == id);
 
         return new Message(
             message.Id,

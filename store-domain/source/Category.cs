@@ -11,5 +11,5 @@ public class Category : TinyType<string>
             ? CategoryRequired()
             : new(value);
 
-    public static Error CategoryRequired() => new($"{nameof(CategoryRequired)} is required.");
+    public static Error CategoryRequired() => new($"{nameof(Category)} is required.");
 }
