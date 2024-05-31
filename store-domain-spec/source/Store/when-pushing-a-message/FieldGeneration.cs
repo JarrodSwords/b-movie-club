@@ -6,11 +6,11 @@ public abstract partial class WhenPushingAMessage
 {
     #region Implementation
 
-    public static IEnumerable<object[]> GetMessageTypes()
+    public static IEnumerable<object[]> GetData()
     {
-        yield return new object[] { new FooCreated(), nameof(FooCreated) };
-        yield return new object[] { new FooRenamed("TheFoo"), nameof(FooRenamed) };
-        yield return new object[] { new BarAdded(new Bar(NewGuid())), nameof(BarAdded) };
+        yield return new object[] { new FooCreated() };
+        yield return new object[] { new FooRenamed("TheFoo") };
+        yield return new object[] { new BarAdded(new Bar(NewGuid())) };
     }
 
     #endregion
@@ -39,8 +39,8 @@ public abstract partial class WhenPushingAMessage
     }
 
     [Theory]
-    [MemberData(nameof(GetMessageTypes))]
-    public void ThenMessageTypeIsGenerated(object data, string expectedMessageType)
+    [MemberData(nameof(GetData))]
+    public void ThenMessageTypeIsDataTypeName(object data)
     {
         var candidateMessage = new CandidateMessage(data, 0);
 
@@ -48,7 +48,7 @@ public abstract partial class WhenPushingAMessage
 
         var message = _store.Find(candidateMessage.MessageId).Value!;
 
-        message.Type.Should().Be(expectedMessageType);
+        message.Type.Should().Be(data.GetType().Name);
     }
 
     [Fact]
