@@ -70,7 +70,7 @@ public class WhenCreatingACandidateMessage
     {
         var candidateMessage = _stream.Next(MessageType.Create(messageType)).Value!;
 
-        candidateMessage.MessageType.Value.Should().Be(messageType);
+        candidateMessage.MessageType.Should().Be(messageType);
     }
 
     [Theory]

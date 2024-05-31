@@ -24,8 +24,8 @@ public class WhenRehydratingAMessage
 
         using var scope = new AssertionScope();
 
-        message.Id.Value.Should().Be(id);
-        message.Type.Value.Should().Be(type);
+        message.Id.Should().Be(id);
+        message.Type.Should().Be(type);
         message.Timestamp.Should().Be(timestamp);
         message.Position.Should().Be(position);
         message.GlobalPosition.Should().Be(globalPosition);
