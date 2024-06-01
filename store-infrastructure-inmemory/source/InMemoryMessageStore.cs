@@ -11,7 +11,7 @@ public class InMemoryMessageStore : IMessageStore
         var position = _messages.Any(x => x.Metadata.StreamId == candidateMessage.StreamId)
             ? _messages
                   .Where(x => x.Metadata.StreamId == candidateMessage.StreamId)
-                  .Max(x => x.Metadata.Position)!
+                  .Max(x => (uint) x.Metadata.Position)!
             + 1
             : 0;
 

@@ -45,9 +45,9 @@ public abstract partial class WhenPushingAMessage
         var message3 = _store.Find(renameFoo2.MessageId).Value!;
 
         using var scope = new AssertionScope();
-        message1.Metadata.GlobalPosition.Should().Be(0u);
-        message2.Metadata.GlobalPosition.Should().Be(1u);
-        message3.Metadata.GlobalPosition.Should().Be(2u);
+        message1.Metadata.GlobalPosition.Should().Be(0ul);
+        message2.Metadata.GlobalPosition.Should().Be(1ul);
+        message3.Metadata.GlobalPosition.Should().Be(2ul);
     }
 
     #endregion
