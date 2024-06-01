@@ -1,6 +1,8 @@
-﻿namespace Store.Domain;
+﻿using System.Collections;
 
-public class Stream
+namespace Store.Domain;
+
+public class Stream : IEnumerable<Message>
 {
     private readonly IEnumerable<Message> _messages;
 
@@ -27,6 +29,10 @@ public class Stream
                 : 0,
             Id
         );
+
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+    public IEnumerator<Message> GetEnumerator() => _messages.GetEnumerator();
 }
 
 public record StreamId(Category Category, EntityId EntityId, bool IsCommand);

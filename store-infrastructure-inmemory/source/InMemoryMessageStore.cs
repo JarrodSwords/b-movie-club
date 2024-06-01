@@ -1,10 +1,13 @@
-﻿namespace Store.Infrastructure.InMemory;
+﻿using Stream = Store.Domain.Stream;
+
+namespace Store.Infrastructure.InMemory;
 
 public class InMemoryMessageStore : IMessageStore
 {
     private readonly List<Message> _messages = new();
 
     public Result<Message> Find(MessageId id) => _messages.Single(x => x.Id == id);
+    public Result<Stream> Find(StreamId id) => throw new NotImplementedException();
 
     public Result Push(CandidateMessage candidateMessage)
     {
@@ -19,13 +22,13 @@ public class InMemoryMessageStore : IMessageStore
             candidateMessage.MessageId,
             candidateMessage.StreamId.EntityId,
             candidateMessage.StreamId.Category,
+            candidateMessage.Data,
             (ulong) _messages.Count,
             candidateMessage.StreamId.IsCommand,
             position,
             UtcNow,
             candidateMessage.Data.GetType().Name
         );
-
 
         _messages.Add(message);
 

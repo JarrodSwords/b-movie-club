@@ -6,6 +6,7 @@ public record Message
         Guid id,
         Guid entityId,
         string category,
+        IPayload data,
         ulong globalPosition,
         bool isCommand,
         uint position,
@@ -14,6 +15,7 @@ public record Message
     )
     {
         Id = id;
+        Data = data;
         Type = MessageType.Create(type);
         Metadata = new Metadata(
             globalPosition,
@@ -24,6 +26,7 @@ public record Message
     }
 
     public MessageId Id { get; }
+    public IPayload Data { get; }
     public Metadata Metadata { get; }
     public MessageType Type { get; }
 }
@@ -39,4 +42,8 @@ public class MessageId : TinyType<Guid>
     }
 
     public static implicit operator MessageId(Guid source) => new(source);
+}
+
+public interface IPayload
+{
 }

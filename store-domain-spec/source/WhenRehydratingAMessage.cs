@@ -10,8 +10,10 @@ public class WhenRehydratingAMessage
     {
         var entityId = NewGuid();
 
-        yield return new object[] { NewGuid(), entityId, "FooManagement", 2, false, 1, UtcNow, "FooCreated" };
-        yield return new object[] { NewGuid(), entityId, "FooManagement", 7, false, 4, UtcNow, "FooRenamed" };
+        yield return new object[]
+            { NewGuid(), entityId, "FooManagement", new FooCreated(), 2, false, 1, UtcNow, "FooCreated" };
+        yield return new object[]
+            { NewGuid(), entityId, "FooManagement", new FooRenamed("OtherFoo"), 7, false, 4, UtcNow, "FooRenamed" };
     }
 
     #endregion
@@ -24,6 +26,7 @@ public class WhenRehydratingAMessage
         Guid id,
         Guid entityId,
         string category,
+        object data,
         ulong globalPosition,
         bool isCommand,
         uint position,
@@ -35,6 +38,7 @@ public class WhenRehydratingAMessage
             id,
             entityId,
             category,
+            data,
             globalPosition,
             isCommand,
             position,
