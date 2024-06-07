@@ -31,7 +31,7 @@ public class Position : TinyType<uint>
 }
 
 /// <summary>
-///     Data about a <see cref="Message" />.
+///     JsonData about a <see cref="Message" />.
 /// </summary>
 /// <param name="GlobalPosition"></param>
 /// <param name="Position"></param>

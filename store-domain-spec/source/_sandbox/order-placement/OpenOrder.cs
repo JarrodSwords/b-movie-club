@@ -6,24 +6,34 @@ public partial class OrderPlacementService
 {
     private Result OpenOrder(Message message)
     {
-        var stream = new Stream(Category);
-        var (userId, timestamp) = message.Data as OpenOrder;
-
-        var @event = stream.Next(
-            new OrderOpened(stream.Id.EntityId, userId, timestamp)
-        );
-
-        return _store.Push(@event);
+        return _serializer.Deserialize<OpenOrder>(message)
+            .Then(
+                x =>
+                {
+                    var (userId, timestamp) = x;
+                    var stream = new Stream(Category);
+                    return stream
+                        .Next(new OrderOpened(stream.Id.EntityId, userId, timestamp))
+                        .Then(Push);
+                }
+            );
     }
+
+    private Result Push(CandidateMessage message) => _store.Push(message);
 }
 
 public partial class OrderFactory
 {
-    public static Order Reduce(OrderOpened @event, Order target)
+    public Result<Order> OrderOpened(Message message, Order target)
     {
-        var (orderId, userId, timestamp) = @event;
-
-        return new Order(orderId, userId, timestamp);
+        return _serializer.Deserialize<OrderOpened>(message)
+            .Then<Order>(
+                x =>
+                {
+                    var (orderId, userId, timestamp) = x;
+                    return new Order(orderId, userId, timestamp);
+                }
+            );
     }
 }
 

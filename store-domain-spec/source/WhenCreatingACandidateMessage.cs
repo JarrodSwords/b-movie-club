@@ -25,11 +25,13 @@ public class WhenCreatingACandidateMessage
 
     public static IEnumerable<object[]> GetExpectedPositionTestCases()
     {
+        var serializer = new DefaultSerializer();
+
         var fooCreated = new Message(
             NewGuid(),
             NewGuid(),
             "FooManagement",
-            new FooCreated(),
+            serializer.Serialize(new FooCreated()),
             0,
             false,
             0,
@@ -40,7 +42,7 @@ public class WhenCreatingACandidateMessage
             NewGuid(),
             NewGuid(),
             "FooManagement",
-            new FooRenamed("OtherFoo"),
+            serializer.Serialize(new FooRenamed("OtherFoo")),
             1,
             false,
             1,

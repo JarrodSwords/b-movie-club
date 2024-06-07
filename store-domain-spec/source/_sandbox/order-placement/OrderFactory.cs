@@ -1,23 +1,28 @@
-﻿namespace Store.Domain.Spec;
+﻿using Jgs.Errors.Results;
+
+namespace Store.Domain.Spec;
 
 public partial class OrderFactory
 {
-    private static readonly Dictionary<Type, Func<IPayload, Order, Order>> _reducers = new();
+    private readonly ISerializer _serializer;
+    private static readonly Dictionary<string, Func<Message, Order, Result<Order>>> Reducers = new();
 
-    static OrderFactory()
+    public OrderFactory(ISerializer serializer)
     {
-        void Register<T>(Func<T, Order, Order> reducer) where T : IPayload =>
-            _reducers.Add(
-                typeof(T),
-                (payload, order) => reducer((T) payload, order)
+        _serializer = serializer;
+
+        void Register<T>(Func<Message, Order, Result<Order>> reducer) =>
+            Reducers.Add(
+                typeof(T).Name,
+                reducer
             );
 
-        Register<OrderOpened>(Reduce);
+        Register<OrderOpened>(OrderOpened);
     }
 
     public static Order Create(Stream stream) =>
         stream.Aggregate<Message, Order>(
             null,
-            (current, message) => _reducers[message.Data.GetType()](message.Data, current)
+            (current, message) => Reducers[message.Type](message, current)
         );
 }

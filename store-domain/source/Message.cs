@@ -6,7 +6,7 @@ public record Message
         Guid id,
         Guid entityId,
         string category,
-        IPayload data,
+        string jsonData,
         ulong globalPosition,
         bool isCommand,
         uint position,
@@ -15,7 +15,7 @@ public record Message
     )
     {
         Id = id;
-        Data = data;
+        JsonData = jsonData;
         Type = MessageType.Create(type);
         Metadata = new Metadata(
             globalPosition,
@@ -26,7 +26,7 @@ public record Message
     }
 
     public MessageId Id { get; }
-    public IPayload Data { get; }
+    public string JsonData { get; }
     public Metadata Metadata { get; }
     public MessageType Type { get; }
 }

@@ -9,11 +9,18 @@ public class WhenRehydratingAMessage
     public static IEnumerable<object[]> GetMessageParameters()
     {
         var entityId = NewGuid();
+        var serializer = new DefaultSerializer();
 
         yield return new object[]
-            { NewGuid(), entityId, "FooManagement", new FooCreated(), 2, false, 1, UtcNow, "FooCreated" };
+        {
+            NewGuid(), entityId, "FooManagement", serializer.Serialize(new FooCreated()), 2, false, 1, UtcNow,
+            "FooCreated"
+        };
         yield return new object[]
-            { NewGuid(), entityId, "FooManagement", new FooRenamed("OtherFoo"), 7, false, 4, UtcNow, "FooRenamed" };
+        {
+            NewGuid(), entityId, "FooManagement", serializer.Serialize(new FooRenamed("OtherFoo")), 7, false, 4, UtcNow,
+            "FooRenamed"
+        };
     }
 
     #endregion
@@ -26,7 +33,7 @@ public class WhenRehydratingAMessage
         Guid id,
         Guid entityId,
         string category,
-        object data,
+        string jsonData,
         ulong globalPosition,
         bool isCommand,
         uint position,
@@ -38,7 +45,7 @@ public class WhenRehydratingAMessage
             id,
             entityId,
             category,
-            data,
+            jsonData,
             globalPosition,
             isCommand,
             position,
