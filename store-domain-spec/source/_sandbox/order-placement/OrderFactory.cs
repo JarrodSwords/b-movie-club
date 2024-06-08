@@ -1,6 +1,4 @@
-﻿using Jgs.Errors.Results;
-
-namespace Store.Domain.Spec;
+﻿namespace Store.Domain.Spec;
 
 public partial class OrderFactory
 {
