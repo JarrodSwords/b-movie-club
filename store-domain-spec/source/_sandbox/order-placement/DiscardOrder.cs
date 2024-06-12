@@ -4,20 +4,11 @@ public partial class OrderPlacementService
 {
     private Result DiscardOrder(Message message)
     {
-        var stream = _store.Find(message.Metadata.StreamId).Value!;
-        var order = OrderFactory.Create(stream);
-
-        var result = order.Discard();
-
-        IPayload payload = new DiscardOrderFailed();
-
-        if (result.IsSuccess)
-            payload = new OrderDiscarded();
-
-        else if (result == Order.OrderAlreadyDiscarded())
-            payload = new OrderAlreadyDiscarded();
-
-        return _store.Push(stream.Next(payload));
+        return _builder.Build(message)
+            .Then(order => order.Discard())
+            .Then(() => _builder.Stream.Next(new OrderDiscarded()))
+            .Catch(error => _builder.Stream.Next(Order.DiscardOrderFailed()))
+            .Then(_store.Push);
     }
 }
 
@@ -26,7 +17,7 @@ public partial class Order
     public Result Discard()
     {
         if (State == OrderState.Discarded)
-            return DiscardOrderFailed();
+            return OrderAlreadyDiscarded();
 
         State = OrderState.Discarded;
 

@@ -20,7 +20,7 @@ public partial class OrderPlacementService
     private Result Push(CandidateMessage message) => _store.Push(message);
 }
 
-public partial class OrderFactory
+public partial class OrderBuilder
 {
     public Result<Order> OrderOpened(Message message, Order target)
     {

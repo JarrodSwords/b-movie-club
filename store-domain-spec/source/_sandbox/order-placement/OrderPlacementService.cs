@@ -2,15 +2,17 @@
 
 public partial class OrderPlacementService
 {
+    private readonly OrderBuilder _builder;
     private readonly Dictionary<string, Func<Message, Result>> _handlers = new();
     private readonly ISerializer _serializer;
     private readonly IMessageStore _store;
     private static readonly Category Category = Category.Create("OrderPlacement").Value!;
 
-    private OrderPlacementService(IMessageStore store, ISerializer serializer)
+    private OrderPlacementService(IMessageStore store, ISerializer serializer, OrderBuilder builder)
     {
         _store = store;
         _serializer = serializer;
+        _builder = builder;
 
         void Add(Func<Message, Result> handler) => _handlers.Add(handler.GetType().Name, handler);
 
@@ -18,8 +20,14 @@ public partial class OrderPlacementService
         Add(DiscardOrder);
     }
 
-    public Result Handle(Message message) =>
-        _handlers.ContainsKey(message.Type)
-            ? _handlers[message.Type](message)
-            : Success();
+    public Result Handle(Message message)
+    {
+        if (!_handlers.ContainsKey(message.Type))
+            return Success();
+
+        if (message.Type == "OpenOrder")
+            return OpenOrder(message);
+
+        return _handlers[message.Type](message);
+    }
 }
