@@ -1,10 +1,27 @@
 ﻿namespace Store.Domain.Spec;
 
-public partial class OrderPlacementService
+public class OpenOrderHandler : Handler
 {
+    public OpenOrderHandler(
+        IMessageStore store,
+        ISerializer serializer,
+        OrderBuilder builder
+    ) : base(
+        store,
+        serializer,
+        builder
+    )
+    {
+    }
+
+    protected override string Type { get; }
+
+    public override Result Foo() => throw new NotImplementedException();
+    public override Result Foo(Order order) => throw new NotImplementedException();
+
     private Result OpenOrder(Message message)
     {
-        return _serializer.Deserialize<OpenOrder>(message)
+        return Serializer.Deserialize<OpenOrder>(message)
             .Then(
                 x =>
                 {
@@ -12,12 +29,10 @@ public partial class OrderPlacementService
                     var stream = new Stream(Category);
                     return stream
                         .Next(new OrderOpened(stream.Id.EntityId, userId, timestamp))
-                        .Then(Push);
+                        .Then(Store.Push);
                 }
             );
     }
-
-    private Result Push(CandidateMessage message) => _store.Push(message);
 }
 
 public partial class OrderBuilder

@@ -1,33 +1,34 @@
 ﻿namespace Store.Domain.Spec;
 
-public partial class OrderPlacementService
+public abstract class Handler
 {
+    protected static readonly Category Category = Category.Create("OrderPlacement").Value!;
+    protected readonly ISerializer Serializer;
+    protected readonly IMessageStore Store;
     private readonly OrderBuilder _builder;
-    private readonly Dictionary<string, Func<Message, Result>> _handlers = new();
-    private readonly ISerializer _serializer;
-    private readonly IMessageStore _store;
-    private static readonly Category Category = Category.Create("OrderPlacement").Value!;
 
-    private OrderPlacementService(IMessageStore store, ISerializer serializer, OrderBuilder builder)
+    protected Handler(IMessageStore store, ISerializer serializer, OrderBuilder builder)
     {
-        _store = store;
-        _serializer = serializer;
+        Store = store;
+        Serializer = serializer;
         _builder = builder;
-
-        void Add(Func<Message, Result> handler) => _handlers.Add(handler.GetType().Name, handler);
-
-        Add(OpenOrder);
-        Add(DiscardOrder);
     }
+
+    protected Stream Stream => _builder.Stream;
+    protected abstract string Type { get; }
+
+    public abstract Result Foo();
+    public abstract Result Foo(Order order);
 
     public Result Handle(Message message)
     {
-        if (!_handlers.ContainsKey(message.Type))
+        if (message.Type != Type)
             return Success();
 
         if (message.Type == "OpenOrder")
-            return OpenOrder(message);
+            return Foo();
 
-        return _handlers[message.Type](message);
+        return _builder.Build(message)
+            .Then(Foo);
     }
 }

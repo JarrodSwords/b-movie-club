@@ -1,15 +1,33 @@
 ﻿namespace Store.Domain.Spec;
 
-public partial class OrderPlacementService
+public class DiscardOrderHandler : Handler
 {
-    private Result DiscardOrder(Message message)
+    public DiscardOrderHandler(
+        IMessageStore store,
+        ISerializer serializer,
+        OrderBuilder builder
+    ) : base(
+        store,
+        serializer,
+        builder
+    )
     {
-        return _builder.Build(message)
-            .Then(order => order.Discard())
-            .Then(() => _builder.Stream.Next(new OrderDiscarded()))
-            .Catch(error => _builder.Stream.Next(Order.DiscardOrderFailed()))
-            .Then(_store.Push);
     }
+
+    protected override string Type => nameof(DiscardOrder);
+    public override Result Foo() => throw new NotImplementedException();
+
+    public override Result Foo(Order order) =>
+        order.Discard()
+            .Then(() => Stream.Next(new OrderDiscarded()))
+            .Catch(
+                error => Stream.Next(
+                    error == Order.OrderAlreadyDiscarded()
+                        ? new OrderAlreadyDiscarded()
+                        : new DiscardOrderFailed()
+                )
+            )
+            .Then(Store.Push);
 }
 
 public partial class Order
@@ -24,11 +42,10 @@ public partial class Order
         return Success();
     }
 
-    public static Error DiscardOrderFailed() => new(nameof(DiscardOrderFailed));
     public static Error OrderAlreadyDiscarded() => new(nameof(OrderAlreadyDiscarded));
 }
 
-public record DiscardOrder;
+public record DiscardOrder : IPayload;
 
 public record OrderDiscarded : IPayload;
 

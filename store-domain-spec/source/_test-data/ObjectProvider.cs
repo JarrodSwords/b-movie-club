@@ -2,7 +2,7 @@
 
 public static class ObjectProvider
 {
-    public static Category Category = Category.Create("Foo");
+    public static Category Category = Category.Create("ExecuteDomainLogic");
 }
 
 public record BarAdded(Bar Bar);
